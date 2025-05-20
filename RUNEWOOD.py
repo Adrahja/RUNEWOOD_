@@ -10,15 +10,6 @@ manager = pygame_gui.UIManager((900,700))
 from GUI import *
 from functions import *
 
-
-#THINGS NEED WORK:
-#day text doesnt update ??
-#gui of shop is weird
-#shop window x kills window
-#putting player sprite in the middle for each new runewood
-#black wyvern doesnt give item
-#you can use unlimeted items in inventory, it doesnt go to enemy attack yet
-
 screen = pygame.display.set_mode((900,700))
 pygame.display.set_caption("RUNEWOOD")
 clock = pygame.time.Clock()
@@ -27,7 +18,7 @@ name_set = 0
 battle = None
 enemy = None
 runewood = None
-battle_counter = 2 #!!!
+battle_counter = 0
 linos_shop = None
 nyx_counter = None
 player= None
@@ -310,8 +301,7 @@ while True:
                         if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
                             battle = "choice"
         if event.type == pygame.KEYDOWN and name_set == 5 or event.type == pygame.MOUSEBUTTONDOWN and name_set == 5:
-            experience(player, previous_enemy, text_box)#in here put text for wyvern orb
-            #if previous_enemy black wyvern append orb
+            experience(player, previous_enemy, text_box)
             battle_counter += 1
             #LVL UPS HERE
             name_set = levelup(player, battle_counter, exp_needed)
@@ -340,7 +330,7 @@ while True:
             up_attack.hide()
             up_mana.hide()
             name_set = 7
-        if name_set == 7 and event.type == pygame.KEYDOWN or name_set == 7 and event.type == pygame.MOUSEBUTTONDOWN: #only happens when pressed twice???
+        if name_set == 7 and event.type == pygame.KEYDOWN or name_set == 7 and event.type == pygame.MOUSEBUTTONDOWN: 
             if battle_counter == 3:
                 active_sprite_rect.x = 450 ###
                 active_sprite_rect.y = 350 ###
@@ -351,8 +341,7 @@ while True:
                     
         if battle =="lost" and event.type == pygame.KEYDOWN or battle =="lost" and event.type == pygame.MOUSEBUTTONDOWN:
             startscreen = True
-            #pygame.quit()
-            #exit()
+            
         if runewood == True:
             if recharge_rect.colliderect(active_sprite_rect):
                 print("coll with recharge")
@@ -498,7 +487,7 @@ while True:
         screen.blit(ranger_portrait, (600,100))
 
     #MANA/HEALTH BARS/GOLD/EXP
-    if battle is not None and enemy is not None:        #maybe health and sprite for player should stay active when exp and defeat screen
+    if battle is not None and enemy is not None:        
         #enemy
         current_bar_width = int((enemy.health / enemy.max_health) * 200)
         if current_bar_width < 0:
